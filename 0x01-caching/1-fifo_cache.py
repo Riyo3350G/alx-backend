@@ -13,7 +13,7 @@ class FIFOCache(BaseCaching):
         """put method"""
         if key and item:
             self.cache_data[key] = item
-            if len(self.cache_data.keys()) > super().MAX_ITEMS:
+            if len(self.cache_data) > super().MAX_ITEMS:
                 first_item = next(iter(self.cache_data))
                 self.cache_data.pop(first_item)
                 print("DISCARD: {}".format(first_item))
