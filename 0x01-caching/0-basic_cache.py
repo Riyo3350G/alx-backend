@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """basic caching module"""
-BaseCaching = __import__('base_caching').BaseCaching
+BaseCaching = __import__("base_caching").BaseCaching
 
 
 class BasicCache(BaseCaching):
@@ -8,10 +8,8 @@ class BasicCache(BaseCaching):
 
     def put(self, key, item):
         """put method"""
-        if key is not None or item is not None:
+        if key and item:
             self.cache_data[key] = item
-        else:
-            pass
 
     def get(self, key):
         """get method"""
