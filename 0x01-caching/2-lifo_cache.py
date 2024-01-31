@@ -5,9 +5,9 @@ BaseCaching = __import__("base_caching").BaseCaching
 
 class LIFOCache(BaseCaching):
     """LIFOCache Class"""
-    def __int__(self):
+    def __init__(self):
         """constructor"""
-        super().__int__()
+        super().__init__()
 
     def put(self, key, item):
         """put method"""
@@ -15,7 +15,7 @@ class LIFOCache(BaseCaching):
             self.cache_data[key] = item
             if len(self.cache_data) > super().MAX_ITEMS:
                 last_item = list(self.cache_data.keys())[-1]
-                del self.cache_data[last_item]
+                self.cache_data.pop(last_item)
                 print("DISCARD: {}".format(last_item))
 
     def get(self, key):
