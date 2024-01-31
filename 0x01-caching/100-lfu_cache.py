@@ -17,25 +17,26 @@ class LFUCache(BaseCaching):
     def put(self, key, item):
         """put method"""
         if key and item:
-            if key in self.cache_data.keys():
-                self.cache_data[key] = item
-                self.freq[key] += 1
-                self.access_counter += 1
-                self.cache_data.move_to_end(key, last=True)
-            else:
-                self.cache_data[key] = item
-                self.freq[key] = 1
-                self.access_counter += 1
-                if len(self.cache_data) > super().MAX_ITEMS:
-                    recent_item = min(self.freq, key=self.freq.get)
-                    self.cache_data.pop(recent_item)
-                    self.freq.pop(recent_item)
-                    print("DISCARD: {}".format(recent_item))
+            if (len(self.cache_data) >= super()
+                    .MAX_ITEMS and key not in self.cache_data.keys()):
+                least_freq = min(self.freq.values())
+                least_freq_keys = [k for k, v in self.freq.items()
+                                   if v == least_freq]
+
+                least_freq_keys = min(
+                    least_freq_keys,
+                    key=lambda x: self.freq.get(x, 0)
+                )
+                self.cache_data.pop(least_freq_keys)
+                self.freq.pop(least_freq_keys)
+                print("DISCARD: {}".format(least_freq_keys))
+            self.cache_data[key] = item
+            self.freq[key] = 0
 
     def get(self, key):
         """get method"""
         if key in self.cache_data.keys():
-            self.freq[key] += 1
-            self.access_counter += 1
             self.cache_data.move_to_end(key, last=True)
-        return self.cache_data.get(key)
+            self.freq[key] += 1
+            return self.cache_data.get(key)
+        return None
