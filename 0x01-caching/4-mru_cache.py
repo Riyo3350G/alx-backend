@@ -16,7 +16,7 @@ class MRUCache(BaseCaching):
         if key and item:
             self.cache_data[key] = item
             if len(self.cache_data) > super().MAX_ITEMS:
-                recent_item = list(self.cache_data.keys())[0]
+                recent_item = list(self.cache_data.keys())[-2]
                 self.cache_data.pop(recent_item)
                 print("DISCARD: {}".format(recent_item))
 
