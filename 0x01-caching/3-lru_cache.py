@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """lru caching module"""
+from collections import OrderedDict
 BaseCaching = __import__("base_caching").BaseCaching
 
 
@@ -8,6 +9,7 @@ class LRUCache(BaseCaching):
     def __init__(self):
         """constructor"""
         super().__init__()
+        self.cache_data = OrderedDict(self.cache_data)
 
     def put(self, key, item):
         """put method"""
@@ -20,4 +22,6 @@ class LRUCache(BaseCaching):
 
     def get(self, key):
         """get method"""
-        return self.cache_data.get(key, None)
+        if key in self.cache_data.keys():
+            self.cache_data.move_to_end(key, last=True)
+        return self.cache_data.get(key)
