@@ -1,8 +1,8 @@
 import { createClient } from "redis";
-client = createClient();
+const client = createClient();
 
 client.on("error", function (err) {
-    console.error(`Redis client not connected to the server: ${error.message}`);
+    console.error(`Redis client not connected to the server: ${err.message}`);
 });
 
 client.on("connect", function () {
