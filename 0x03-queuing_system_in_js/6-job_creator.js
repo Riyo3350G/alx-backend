@@ -1,4 +1,3 @@
-import res from "express/lib/response";
 import { createQueue } from "kue";
 const queue = createQueue();
 
